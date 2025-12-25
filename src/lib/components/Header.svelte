@@ -32,12 +32,35 @@
                         Dashboard
                     </a>
                     <a 
-                        href="/policies" 
+                        href="/policiess" 
                         class="nav-link text-sm font-bold transition-all"
-                        class:active={$page.url.pathname === '/policies'}
+                        class:active={$page.url.pathname === '/policiess'}
                     >
                         Buy policies
                     </a>
+                    {#if user.role === 'admin'}
+                        <a 
+                            href="/admin/siem-logs" 
+                            class="nav-link text-sm font-bold transition-all"
+                            class:active={$page.url.pathname === '/admin/siem-logs'}
+                        >
+                            SIEM Logs
+                        </a>
+                        <a 
+                            href="/admin/users" 
+                            class="nav-link text-sm font-bold transition-all"
+                            class:active={$page.url.pathname === '/admin/users'}
+                        >
+                            Users
+                        </a>
+                        <a 
+                            href="/admin/policies" 
+                            class="nav-link text-sm font-bold transition-all"
+                            class:active={$page.url.pathname === '/admin/policies'}
+                        >
+                            Edit policies
+                        </a>
+                    {/if}
                 </nav>
             </div>
 

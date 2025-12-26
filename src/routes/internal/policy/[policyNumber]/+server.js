@@ -21,7 +21,7 @@ export async function GET({ params, fetch, locals }) {
         return new Response(response.body, {
             headers: {
                 'Content-Type': 'application/pdf',
-                'Content-Disposition': `attachment; filename="Polisa_${policyNumber}.pdf"`
+                'Content-Disposition': `attachment; filename="Policy_${policyNumber}.pdf"`
             }
         });
     } catch (err) {

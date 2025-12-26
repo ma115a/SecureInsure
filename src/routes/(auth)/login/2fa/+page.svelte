@@ -3,11 +3,19 @@
     import { User, Lock, ChevronRight} from '@lucide/svelte';
     import { enhance } from "$app/forms";
     import { page } from "$app/stores";
+    import { logSecurityEvent } from '$lib/client/siem';
 
     let tempUsername = $page.data.tempUsername
     console.log($page)
 
     let otp = ['','','','','','']
+    let inputRefs = [];
+
+    $effect(() => {
+        if (inputRefs[0]) {
+            inputRefs[0].focus();
+        }
+    });
 
 
     function handleOtpInput(e, index) {
@@ -25,8 +33,19 @@
         }
     }
 
-
-
+    const handleFormEnhance = () => {
+        return async ({ result, update }) => {
+            if (result.type === 'failure' && result.data?.error) {
+                await logSecurityEvent({
+                    type: '2FA_VERIFICATION_FAILED_CLIENT',
+                    details: `User ${tempUsername} failed 2FA: ${result.data.message || 'Invalid code'}`,
+                    severity: 'WARNING',
+                    url: '/login/2fa'
+                });
+            }
+            await update();
+        };
+    };
     
 </script>
 
@@ -34,7 +53,7 @@
 
 <GlassCard>
     <div class="space-y-8 text-center relative z-10">
-        <form method="POST" use:enhance class="space-y-5">
+        <form method="POST" use:enhance={handleFormEnhance} class="space-y-5">
             <input type="hidden" name="username" value={tempUsername}>
             <input type="hidden" name="code" value={otp.join('')}>
             <div class="space-y-2">
@@ -44,7 +63,7 @@
 
             <div class="flex justify-between gap-2">
                 {#each otp as digit, i}
-                    <input type="text" maxlength="1" bind:value={otp[i]} on:input={(e) => handleOtpInput(e, i)} on:keydown={(e) => handleOtpKeyDown(e, i)} class="w-full h-14 text-center text-xl rounded-xl font-black bg-white/5 border border-white/5 text-white focus:border-blue-500/50 focus-bg-white/10 outline-none transition-all">
+                    <input type="text" maxlength="1" bind:this={inputRefs[i]} bind:value={otp[i]} on:input={(e) => handleOtpInput(e, i)} on:keydown={(e) => handleOtpKeyDown(e, i)} class="w-full h-14 text-center text-xl rounded-xl font-black bg-white/5 border border-white/5 text-white focus:border-blue-500/50 focus-bg-white/10 outline-none transition-all">
                 {/each} 
             </div>
 

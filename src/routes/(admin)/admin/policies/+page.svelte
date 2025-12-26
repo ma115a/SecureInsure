@@ -20,7 +20,7 @@
 
 
 
-<HomeContainer title="Policies" subtitle="uga buga 3">
+<HomeContainer title="Policies" subtitle="See the current policies in the system and add new ones">
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Forma za novu polisu -->
@@ -39,6 +39,19 @@
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold text-slate-500 uppercase ml-1" for="coverage">Coverage (€)</label>
                         <input name="coverage" type="number" placeholder="ex. 100000.00" class="w-full p-4 text-white rounded-2xl bg-white/5 border border-white/5 text-sm" required />
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-bold text-slate-500 uppercase ml-1" for="policyType">Policy Type</label>
+                        <select name="policyType" id="policyType" class="w-full p-4 text-white rounded-2xl bg-white/5 border border-white/5 text-sm" required>
+                            <option value="MONTHLY">MONTHLY</option>
+                            <option value="YEARLY">YEARLY</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-bold text-slate-500 uppercase ml-1" for="validityDays">Validity Days</label>
+                        <input name="validityDays" type="number" placeholder="ex. 30" class="w-full p-4 text-white rounded-2xl bg-white/5 border border-white/5 text-sm" required />
                     </div>
                 </div>
                 <div class="space-y-1">

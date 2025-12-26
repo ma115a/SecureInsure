@@ -41,6 +41,9 @@ export const actions = {
         const basePrice = data.get('price')
         const baseCoverage = data.get('coverage')
         const description = data.get('description')
+        const type = data.get('policyType')
+        const validFor = parseInt(data.get('validityDays'))
+
 
         console.log(basePrice)
 
@@ -51,7 +54,7 @@ export const actions = {
             const response = await fetch('/api/add-policy', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, basePrice, baseCoverage, description })
+                body: JSON.stringify({ name, basePrice, baseCoverage, description, type, validFor })
             })
 
 

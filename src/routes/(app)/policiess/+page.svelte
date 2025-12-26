@@ -1,7 +1,7 @@
 <script>
     import HomeContainer from "$lib/components/homeContainer.svelte";
 	import PaymentModal from "$lib/components/PaymentModal.svelte";
-    import { CheckCircle2 } from "@lucide/svelte";
+    import { CheckCircle2, Shield } from "@lucide/svelte";
 
     let { data } = $props()
 
@@ -24,18 +24,37 @@
 
 
 <HomeContainer  title="Buy a policy" subtitle="Offers available for you">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {#each data.policies as policy}
-        <div class="stagger-item p-8 rounded-[2.5rem] bg-white/8 backdrop-blur-[20px] border border-white/5 flex flex-col hover:border-blue-500/30 transition-all hover:-translate-y-1">
-            <h4 class="text-lg text-white font-bold">{policy.name}</h4>
-            <p class="text-xs text-slate-500 mt-2 mb-8 grow leading-relaxed">{policy.description}</p>
-                <span class="text-white">Base coverage: {policy.base_coverage}€</span>
-            <div class=" flex justify-between items-center">
-                <span class="text-2xl font-black text-blue-400">{policy.base_price}€</span>
-                <button onclick={() => openPayment(policy)} class="px-5 text-white py-3 bg-blue-600 hover:bg-blue-500 rounded-xl text-[10px] font-black uppercase transition-all shadow-lg shadow-blue-600/20 active:scale-95">
+        <div class="stagger-item p-8 rounded-[2.5rem] bg-white/[0.02] backdrop-blur-[20px] border border-white/5 flex flex-col group relative overflow-hidden transition-all hover:bg-white/5 hover:-translate-y-1">
+             <div class="flex justify-between items-start mb-4">
+                 <div>
+                    <h4 class="text-xl font-black text-white capitalize">{policy.name}</h4>
+                 </div>
+                 <div class="p-3 bg-blue-500/10 rounded-xl text-blue-500">
+                    <Shield size={20} />
+                 </div>
+            </div>
+            
+            <p class="text-xs text-slate-500 mb-8 grow leading-relaxed">{policy.description}</p>
+            
+            <div class="mb-4">
+                 <p class="text-[9px] text-slate-600 uppercase font-black tracking-widest mb-1">Coverage</p>
+                 <span class="text-white font-bold">{policy.base_coverage} USD</span>
+            </div>
+
+            <div class="flex justify-between items-end relative z-10">
+                <div>
+                     <p class="text-[9px] text-slate-600 uppercase font-black tracking-widest mb-1">Price</p>
+                    <span class="text-2xl font-black text-blue-400">{policy.base_price} USD</span>
+                </div>
+                <button onclick={() => openPayment(policy)} class="px-5 cursor-pointer text-white py-3 bg-blue-600 hover:bg-blue-500 rounded-xl text-[10px] font-black uppercase transition-all shadow-lg shadow-blue-600/20 active:scale-95">
                     Buy
                 </button>
             </div>
+            
+             <!-- Dekorativni sjaj u pozadini -->
+             <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-blue-600/5 blur-3xl rounded-full pointer-events-none"></div>
         </div>
     {/each}
     </div>

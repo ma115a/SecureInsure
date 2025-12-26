@@ -2,6 +2,7 @@
 	import { enhance } from "$app/forms";
     import GlassCard from "$lib/components/GlassCard.svelte";
     import { User, Lock, ChevronRight} from '@lucide/svelte';
+    import { logSecurityEvent } from '$lib/client/siem';
 
     export let form
     let loading = false
@@ -14,16 +15,25 @@
 
 <GlassCard>
         <div class="space-y-6 relative z-10">
-            <form method="POST" use:enhance={() =>
-                { 
-                    loading = true
-                    return async({update}) => {
-                    loading = false
-                    update() 
-                }
-            }
-
-            }  class="space-y-5">
+            <form method="POST" use:enhance={({ formData }) => { 
+                loading = true;
+                const username = formData.get('username');
+                
+                return async ({ result, update }) => {
+                    loading = false;
+                    
+                    if (result.type === 'failure' && result.data?.error) {
+                         await logSecurityEvent({
+                            type: 'LOGIN_FAILED',
+                            details: `Failed login attempt for user: ${username}`,
+                            severity: 'WARNING',
+                            url: '/login'
+                        });
+                    }
+                    
+                    await update(); 
+                };
+            }} class="space-y-5">
             <div class="space-y-2">
                 <label class="block text-[12px] font-black text-slate-500 uppercase tracking-widest ml-1" for="username">Username</label>
                 <div class="relative group">

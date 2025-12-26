@@ -48,7 +48,7 @@
 <div class="bg-white/5 p-6 rounded-2xl mb-8 border border-white/5">
                 <div class="flex justify-between items-center">
                     <span class="text-xs font-bold text-slate-500 uppercase">Total amount</span>
-                    <span class="text-2xl font-black text-white">{policy.base_price}</span>
+                    <span class="text-2xl font-black text-white">{policy.base_price} USD</span>
                 </div>
 <div class="space-y-4">
                 <PayPalButton 

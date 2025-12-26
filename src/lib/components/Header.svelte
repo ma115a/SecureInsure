@@ -3,7 +3,7 @@
     let activeNav = 'dashboard'
     import gsap from 'gsap'
     import { page } from '$app/stores';
-
+    import { LogOut } from '@lucide/svelte';
 
     let headerRef
 
@@ -71,6 +71,11 @@
                 <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold border border-white/10 shadow-lg shadow-blue-600/20">
                 {user.name.split('')[0]}{user.lastname.split('')[0]}
                 </div>
+                 <form action="/logout" method="POST">
+                    <button type="submit" class="w-10 h-10 cursor-pointer rounded-full bg-white/5 hover:bg-red-500/20 flex items-center justify-center text-slate-400 hover:text-red-500 transition-all border border-white/5 ml-2 group" title="Logout">
+                        <LogOut size={18} class="group-hover:scale-110 transition-transform" />
+                    </button>
+                </form>
             </div>
         </div>
     </header>

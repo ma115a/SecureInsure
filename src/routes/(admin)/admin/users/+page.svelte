@@ -30,15 +30,11 @@
 </script>
 
 
-<HomeContainer title="Users" subtitle="uga buga">
+<HomeContainer title="Users" subtitle="See all users registered on the system and add new admins to the system">
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Lista korisnika -->
                 <div class="lg:col-span-2 space-y-4">
-                    <div class="admin-stagger bg-white/5 p-4 rounded-2xl flex items-center gap-4 border border-white/5">
-                        <Search size={16} class="text-slate-500" />
-                        <input type="text" placeholder="Pretraži bazu korisnika..." class="bg-transparent border-none outline-none text-sm w-full" />
-                    </div>
                     
                     <div class="admin-stagger overflow-hidden rounded-[2.5rem] border border-white/5 bg-white/2">
                         <table class="w-full text-left">
@@ -47,7 +43,6 @@
                                     <th class="p-6">Name and Lastname</th>
                                     <th class="p-6">Username</th>
                                     <th class="p-6">Role</th>
-                                    <th class="p-6">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text-sm">
@@ -57,7 +52,6 @@
                                         <td class="p-6 font-bold text-white">{user.username}</td>
                                         <td class="p-6"><span class="px-2 py-1 bg-blue-500/10 text-blue-500 text-[9px] font-black rounded">{user.admin === 1 ? 'ADMIN' : 'REGULAR'}</span></td>
                                         <!-- <td class="p-6"><span class="flex items-center gap-2 text-[10px] font-bold text-emerald-500"><div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> AKTIVAN</span></td> -->
-                                        <td class="p-6"><button class="text-slate-500 hover:text-white transition-colors"><Activity size={16}/></button></td>
                                     </tr>
                                 {/each}
                             </tbody>

@@ -1,14 +1,24 @@
 <script>
     import HomeContainer from "$lib/components/homeContainer.svelte";
 	import PaymentModal from "$lib/components/PaymentModal.svelte";
+    import { CheckCircle2 } from "@lucide/svelte";
 
     let { data } = $props()
 
     let selectedPolicy = $state(null)
     let isModalOpen = $state(false)
+    let showSuccessToast = $state(false)
+    let lastPolicyNumber = $state('')
     function openPayment(policy) {
         selectedPolicy = policy
         isModalOpen = true
+    }
+
+
+    function handlePaymentComplete(policyNumber) {
+        showSuccessToast = true
+        lastPolicyNumber = policyNumber
+        setTimeout(() => showSuccessToast = false, 5000)
     }
 </script>
 
@@ -28,12 +38,21 @@
             </div>
         </div>
     {/each}
-        <!-- Dodajte ostale polise po potrebi -->
     </div>
 </HomeContainer>
 
 
 
 {#if selectedPolicy}
-    <PaymentModal policy={selectedPolicy} bind:isOpen={isModalOpen} onComplete={() => {}}/>
+    <PaymentModal policy={selectedPolicy} bind:isOpen={isModalOpen} onComplete={handlePaymentComplete}/>
+{/if}
+
+{#if showSuccessToast}
+    <div class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] bg-emerald-500 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 transition-all animate-bounce">
+        <CheckCircle2 size={24} />
+        <div>
+            <p class="font-black text-sm uppercase">Payment sucessfull</p>
+            <p class="text-[10px] font-bold opacity-80 uppercase tracking-widest">PolicyNumber: {lastPolicyNumber}</p>
+        </div>
+    </div>
 {/if}

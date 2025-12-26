@@ -4,10 +4,32 @@
     import {X, ShieldCheck} from '@lucide/svelte'
     import PayPalButton from './PayPalButton.svelte';
     import GlassCard from './GlassCard.svelte';
+    import gsap from 'gsap';
     let {policy, isOpen = $bindable(), onComplete} = $props()
 
     let modalRef = $state()
     let backdropRef = $state()
+
+
+    $effect(() => {
+        if (isOpen) {
+            gsap.to(backdropRef, { opacity: 1, duration: 0.3 });
+            gsap.fromTo(modalRef, 
+                { scale: 0.9, opacity: 0, y: 20 }, 
+                { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" }
+            );
+        }
+    });
+
+    function close() {
+        gsap.to(modalRef, { scale: 0.9, opacity: 0, y: 20, duration: 0.3, onComplete: () => isOpen = false });
+        gsap.to(backdropRef, { opacity: 0, duration: 0.3 });
+    }
+
+    function handleSuccess(policyNumber) {
+        onComplete(policyNumber);
+        close();
+    }
 
 </script>
 
@@ -16,7 +38,7 @@
 {#if isOpen}
     <div bind:this={backdropRef} class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#070b14]/80 backdrop-blur-md">
         <GlassCard bind:this={modalRef}>
-            <button class="absolute top-6 right-6 text-slate-500 transition-colors cursor-pointer hover:text-white"><X size={28} /></button>
+            <button onclick={close} class="absolute top-6 right-6 text-slate-500 transition-colors cursor-pointer hover:text-white"><X size={28} /></button>
 
             <div class="mb-8">
                 <div class="w-12 h-12 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-500 mb-4"> <ShieldCheck/></div>
@@ -31,7 +53,7 @@
 <div class="space-y-4">
                 <PayPalButton 
                     policy={policy} 
-                    onPaymentSuccess={() => {}} 
+                    onPaymentSuccess={handleSuccess} 
                 />
             </div>
             </div>

@@ -35,7 +35,7 @@
                     },
                     createOrder: async () => {
                         try {
-                            const res = await fetch('/api/create-order', {
+                            const res = await fetch('/internal/paypal/create-order', {
                                 method: 'POST',
                                 headers: {'Content-Type' : 'application/json'},
                                 body: JSON.stringify({
@@ -50,9 +50,14 @@
                                 console.log('res not ok')
                             }
 
-                            const order = await res.json()
-                            console.log(order)
-                            return order.id
+                            const responseData = await res.json()
+                            console.log('alo ba')
+                            console.log(responseData)
+                            if(responseData.success) {
+                                console.log('create order success')
+                            }
+                            return responseData.order.id
+                            // return order
                             
                         } catch (error) {
                             console.log(error)
@@ -60,7 +65,7 @@
                     },
                     onApprove: async(data) => {
                         try {
-                            const res = await fetch('/api/capture-order', {
+                            const res = await fetch('/internal/paypal/capture-order', {
                                 method: 'POST',
                                 headers: {'Content-Type' : 'application/json'},
                                 body: JSON.stringify({
@@ -71,6 +76,8 @@
                             const result = await res.json()
                             if(result.success) {
                                 //todo
+                                console.log(result)
+                                onPaymentSuccess(result.policy.policy_number)
                             }
 
                         } catch (error) {
